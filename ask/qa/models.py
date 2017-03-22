@@ -9,8 +9,8 @@ class Question(models.Model):
     text = models.TextField()
     added_at = models.DateField(auto_now_add=True)
     rating = models.IntegerField()
-    author = models.ForeignKey(User)
-    likes = models.ManyToManyField(User)
+    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    likes = models.ManyToManyField(User, related_name='question_likes')
 
 
 class Answer(models.Model):
