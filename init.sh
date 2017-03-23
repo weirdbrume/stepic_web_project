@@ -6,6 +6,7 @@ sudo /etc/init.d/nginx restart
 
 sudo /etc/init.d/mysql start
 
+sudo pip install pymysql
 sudo pip3 install pymysql
 
 cd /home/box/web/ask
