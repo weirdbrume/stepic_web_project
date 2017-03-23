@@ -12,9 +12,25 @@ class Question(models.Model):
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     likes = models.ManyToManyField(User, related_name='question_likes')
 
+    objects = QuestionManager()
+
+    def __str__(self):
+        return self.title
+
 
 class Answer(models.Model):
     text = models.TextField()
     added_at = models.DateField(blank=True, auto_now_add=True)
     question = models.ForeignKey(Question)
     author = models.ForeignKey(User)
+
+    def __str__(self):
+        return self.text
+
+
+class QuestionManager(models.Manager):
+    def new(self):
+        pass
+
+    def popular(self):
+        pass
