@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from django.core.paginator import Paginator, EmptyPage
+from qa.models import Question
+from django.core.urlresolvers import reverse
 
 # Create your views here.
 
@@ -31,5 +33,13 @@ def paginate(request, qs):
     return page, paginator
 
 
-def new_questions(request, *args, **kwargs):
-    return HttpResponse('NEW')
+def new_questions(request):
+    qs = Question.objects.all()
+    qs = qs.ordered_by('-added_at')
+    page, paginator = paginate(request, qs)
+    paginator.baseurl = reverse('new_questions') + '?page='
+    return render(request, 'new_questions.html', {
+        'questions': page.object_list,
+        'page': page,
+        'paginator': paginator,
+    })
