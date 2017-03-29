@@ -35,7 +35,7 @@ def paginate(request, qs):
 
 def new_questions(request):
     qs = Question.objects.all()
-    qs = qs.ordered_by('-added_at')
+    qs = qs.order_by('-added_at')
     page, paginator = paginate(request, qs)
     paginator.baseurl = reverse('new_questions') + '?page='
     return render(request, 'new_questions.html', {
@@ -47,7 +47,7 @@ def new_questions(request):
 
 def popular(request):
     qs = Question.objects.all()
-    qs = qs.ordered_by('-rating')
+    qs = qs.order_by('-rating')
     page, paginator = paginate(request, qs)
     paginator.baseurl = reverse('popular') + '?page='
     return render(request, 'popular_questions.html', {
