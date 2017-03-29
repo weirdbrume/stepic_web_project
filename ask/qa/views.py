@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
 from django.core.paginator import Paginator, EmptyPage
 from qa.models import Question
@@ -54,4 +54,13 @@ def popular(request):
         'questions': page.object_list,
         'page': page,
         'paginator': paginator,
+    })
+
+
+def question(request, pk):
+    question = get_object_or_404(Question, id=pk)
+    answers = question.answer_set.all()
+    return render(request, 'question.html', {
+        'question': question,
+        'answers': answers,
     })
