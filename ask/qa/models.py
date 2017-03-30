@@ -23,6 +23,9 @@ class Question(models.Model):
 
     objects = QuestionManager()
 
+    class Meta:
+        ordering = ('-added_at',)
+
     def __str__(self):
         return self.title
 
@@ -35,6 +38,9 @@ class Answer(models.Model):
     added_at = models.DateField(blank=True, auto_now_add=True)
     question = models.ForeignKey(Question)
     author = models.ForeignKey(User)
+
+    class Meta:
+        ordering = ('added_at',)
 
     def __str__(self):
         return self.text
