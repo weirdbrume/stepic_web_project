@@ -6,10 +6,11 @@
 </head>
 <body>
     <h1>{{ question.title }}</h1>
+        <p>Question added {{ question.added_at }} by {{ question.author }}</p>
         <p>{{ question.text }}</p>
     <h2>Answers:</h2>
         {% for answer in answers %}
-        <h3>{{ answer.author }}</h3>
+        <h3>Answer added {{ answer.added_at }} by {{ answer.author }}</h3>
         <p>{{ answer.text }}</p>
         {% endfor %}
 </body>
