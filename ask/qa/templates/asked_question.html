@@ -6,6 +6,10 @@
 </head>
 <body>
     <h1>Ask your question here</h1>
-    {{ form.as_p }}
+    <form action="/ask/" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit"/>
+    </form>
 </body>
 </html>
