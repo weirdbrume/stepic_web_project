@@ -9,13 +9,13 @@ class AskForm(forms.Form):
     def clean_title(self):
         title = self.cleaned_data['title']
         if not title:
-            raise forms.ValidationError('Field "Title" should not be empty!')
+            raise forms.ValidationError(u'Field "Title" should not be empty!')
         return title
 
     def clean_text(self):
         text = self.cleaned_data['text']
         if not text:
-            raise forms.ValidationError('Field "Text" should not be empty!')
+            raise forms.ValidationError(u'Field "Text" should not be empty!')
         return text
 
     def save(self):
