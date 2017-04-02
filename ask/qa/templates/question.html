@@ -14,5 +14,11 @@
         <h6>Answer added {{ answer.added_at }} by {{ answer.author }}</h6>
             <p>{{ answer.text }}</p>
         {% endfor %}
+    <h2>Answer the question</h2>
+    <form action="/answer/" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit"/>
+    </form>
 </body>
 </html>

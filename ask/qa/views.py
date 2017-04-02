@@ -3,7 +3,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage
 from qa.models import Question
 from django.core.urlresolvers import reverse
-from qa.forms import AskForm
+from qa.forms import AskForm, AnswerForm
 
 # Create your views here.
 
@@ -61,9 +61,11 @@ def popular(request):
 def question(request, pk):
     question = get_object_or_404(Question, id=pk)
     answers = question.answer_set.all()
+    form = AnswerForm(initial={'question': str(pk)})
     return render(request, 'question.html', {
         'question': question,
         'answers': answers,
+        'form': form,
     })
 
 
@@ -79,3 +81,13 @@ def ask(request):
     return render(request, 'asked_question.html', {
         'form': form
     })
+
+
+def answer(request):
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            answer = form.save()
+            url = reverse('question', args=[answer.question.id])
+            return HttpResponseRedirect(url)
+    return HttpResponseRedirect('/')
