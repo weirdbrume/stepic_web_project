@@ -39,8 +39,10 @@ class AnswerForm(forms.Form):
         question = self.cleaned_data['question']
         if question == 0:
             raise forms.ValidationError(u'Wrong question number')
+        return question
 
     def save(self):
+        self.cleaned_data['question'] = get_object_or_404(Question, pk=self.cleaned_data['question'])
         answer = Answer(**self.cleaned_data)
         answer.save()
         return answer
