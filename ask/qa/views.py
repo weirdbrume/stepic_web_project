@@ -3,7 +3,8 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage
 from qa.models import Question
 from django.core.urlresolvers import reverse
-from qa.forms import AskForm, AnswerForm
+from qa.forms import AskForm, AnswerForm, SignupForm
+from django.contrib.auth import login
 
 # Create your views here.
 
@@ -91,3 +92,18 @@ def answer(request):
             url = reverse('question', args=[answer.question.id])
             return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect('/')
+
+    form = SignupForm()
+    return render(request, signup.html, {
+        'form': form
+    })
