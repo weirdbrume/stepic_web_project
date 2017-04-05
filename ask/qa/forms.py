@@ -57,24 +57,6 @@ class SignupForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
 
-    def clean_username(self):
-        username = self.cleaned_data['username']
-        if not username:
-            raise forms.ValidationError(u'Field "username" should not be empty')
-        return username
-
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        if not email:
-            raise forms.ValidationError(u'Field "email" should not be empty')
-        return email
-
-    def clean_password(self):
-        password = self.cleaned_data['password']
-        if not password:
-            raise forms.ValidationError(u'Field "password" should not be empty')
-        return password
-
     def save(self):
         user = User.objects.create_user(**self.cleaned_data)
         user.save()
