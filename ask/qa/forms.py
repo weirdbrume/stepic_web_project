@@ -22,6 +22,7 @@ class AskForm(forms.Form):
         return text
 
     def save(self):
+        self.cleaned_data['author'] = self.user
         question = Question(**self.cleaned_data)
         question.save()
         return question
@@ -44,6 +45,7 @@ class AnswerForm(forms.Form):
         return question
 
     def save(self):
+        self.cleaned_data['author'] = self.user
         self.cleaned_data['question'] = get_object_or_404(Question, pk=self.cleaned_data['question'])
         answer = Answer(**self.cleaned_data)
         answer.save()
