@@ -74,6 +74,9 @@ def ask(request):
     if request.method == 'POST':
         form = AskForm(request.POST)
         if form.is_valid():
+            if request.user.is_anonymous():
+                return HttpResponseRedirect('/login')
+
             form.user = request.user
             question = form.save()
             url = reverse('question', args=[question.id])
@@ -89,10 +92,14 @@ def answer(request):
     if request.method == 'POST':
         form = AnswerForm(request.POST)
         if form.is_valid():
+            if request.user.is_anonymous():
+                return HttpResponseRedirect('/login')
+
             form.user = request.user
             answer = form.save()
             url = reverse('question', args=[answer.question.id])
             return HttpResponseRedirect(url)
+
     return HttpResponseRedirect('/')
 
 
