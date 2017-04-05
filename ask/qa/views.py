@@ -111,7 +111,7 @@ def signup(request):
 
 def login_user(request):
     if request.method == 'POST':
-        form = LoginForm(request)
+        form = LoginForm(request.POST)
         if form.is_valid():
             user = form.save()
             if user is not None:
