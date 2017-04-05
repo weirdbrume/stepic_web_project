@@ -78,3 +78,24 @@ class SignupForm(forms.Form):
         user.save()
         authenticated_user = authenticate(**self.cleaned_data)
         return authenticated_user
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=255)
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if not username:
+            raise forms.ValidationError(u'Field "username" should not be empty')
+        return username
+
+    def clean_password(self):
+        password = self.cleaned_data['password']
+        if not password:
+            raise forms.ValidationError(u'Field "password" should not be empty')
+        return password
+
+    def save(self):
+        authenticated_user = authenticate(**self.cleaned_data)
+        return authenticated_user

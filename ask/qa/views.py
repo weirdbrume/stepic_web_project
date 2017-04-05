@@ -3,8 +3,8 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage
 from qa.models import Question
 from django.core.urlresolvers import reverse
-from qa.forms import AskForm, AnswerForm, SignupForm
-from django.contrib.auth import login
+from qa.forms import AskForm, AnswerForm, SignupForm, LoginForm
+from django.contrib.auth import login, logout
 
 # Create your views here.
 
@@ -107,3 +107,23 @@ def signup(request):
     return render(request, 'signup.html', {
         'form': form
     })
+
+
+def login_user(request):
+    if request.method == 'POST':
+        form = LoginForm(request)
+        if form.is_valid():
+            user = form.save()
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect('/')
+
+    form = LoginForm()
+    return render(request, 'login.html', {
+        'form': form
+    })
+
+
+def logout_user(request):
+    logout(request)
+    return HttpResponseRedirect('/')
